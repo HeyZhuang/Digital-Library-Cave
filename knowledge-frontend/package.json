@@ -1,0 +1,40 @@
+{
+  "name": "knowledge-frontend",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@headlessui/vue": "^1.7.23",
+    "@heroicons/vue": "^2.2.0",
+    "@types/marked": "^6.0.0",
+    "autoprefixer": "^10.4.21",
+    "axios": "^1.10.0",
+    "gsap": "^3.12.5",
+    "three": "^0.168.0",
+    "@types/three": "^0.168.0",
+    "lenis": "^1.1.13",
+    "highlight.js": "^11.11.1",
+    "marked": "^15.0.12",
+    "pinia": "^3.0.3",
+    "postcss": "^8.5.6",
+    "typescript": "^5.8.3",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.1",
+    "@vueuse/core": "^11.2.0",
+    "canvas-confetti": "^1.9.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.10",
+    "@tailwindcss/typography": "^0.5.15",
+    "@vitejs/plugin-vue": "^5.2.3",
+    "@vue/tsconfig": "^0.7.0",
+    "tailwindcss": "^3.4.17",
+    "vite": "^6.2.4",
+    "vite-plugin-vue-devtools": "^7.7.2"
+  }
+}

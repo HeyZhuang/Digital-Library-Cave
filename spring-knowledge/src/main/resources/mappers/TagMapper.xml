@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itzixi.mapper.TagMapper">
+
+    <!-- 结果映射 -->
+    <resultMap id="BaseResultMap" type="com.itzixi.entity.Tag">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="color" property="color" jdbcType="VARCHAR"/>
+        <result column="heat" property="heat" jdbcType="BIGINT"/>
+        <result column="article_count" property="articleCount" jdbcType="BIGINT"/>
+        <result column="created_at" property="createdAt" jdbcType="TIMESTAMP"/>
+        <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!-- 基础列 -->
+    <sql id="Base_Column_List">
+        id, name, color, heat, article_count, created_at, updated_at
+    </sql>
+
+    <!-- 根据文章ID查询标签 -->
+    <select id="selectByArticleId" resultMap="BaseResultMap">
+        SELECT 
+            t.id, t.name, t.color, t.heat, t.article_count, t.created_at, t.updated_at
+        FROM tag t
+        INNER JOIN article_tag at ON t.id = at.tag_id
+        WHERE at.article_id = #{articleId}
+        ORDER BY t.article_count DESC, t.created_at DESC
+    </select>
+
+    <!-- 获取热门标签 -->
+    <select id="selectPopularTags" resultMap="BaseResultMap">
+        SELECT 
+            <include refid="Base_Column_List"/>
+        FROM tag 
+        WHERE article_count > 0
+        ORDER BY article_count DESC, heat DESC
+        LIMIT #{limit}
+    </select>
+
+    <!-- 根据标签名称查询（模糊匹配） -->
+    <select id="selectByNameLike" resultMap="BaseResultMap">
+        SELECT 
+            <include refid="Base_Column_List"/>
+        FROM tag 
+        WHERE name LIKE #{name}
+        ORDER BY article_count DESC, name ASC
+    </select>
+
+</mapper> 

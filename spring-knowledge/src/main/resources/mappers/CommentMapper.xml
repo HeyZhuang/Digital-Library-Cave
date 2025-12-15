@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itzixi.mapper.CommentMapper">
+
+    <!-- 结果映射 -->
+    <resultMap id="BaseResultMap" type="com.itzixi.entity.Comment">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="article_id" property="articleId" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="parent_id" property="parentId" jdbcType="BIGINT"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="author_name" property="authorName" jdbcType="VARCHAR"/>
+        <result column="author_email" property="authorEmail" jdbcType="VARCHAR"/>
+        <result column="author_ip" property="authorIp" jdbcType="VARCHAR"/>
+        <result column="likes" property="likes" jdbcType="BIGINT"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="created_at" property="createdAt" jdbcType="TIMESTAMP"/>
+        <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP"/>
+        <result column="article_title" property="articleTitle" jdbcType="VARCHAR"/>
+        <result column="parent_author_name" property="parentAuthorName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 基础列 -->
+    <sql id="Base_Column_List">
+        id, article_id, user_id, parent_id, content, author_name, author_email, 
+        author_ip, likes, status, created_at, updated_at
+    </sql>
+
+    <!-- 根据文章ID查询评论（树形结构） -->
+    <select id="selectByArticleId" resultMap="BaseResultMap">
+        SELECT 
+            <include refid="Base_Column_List"/>
+        FROM comment 
+        WHERE article_id = #{articleId} 
+          AND status = 1
+        ORDER BY parent_id IS NULL DESC, created_at ASC
+    </select>
+
+    <!-- 分页查询评论 -->
+    <select id="selectCommentPage" resultMap="BaseResultMap">
+        SELECT 
+            c.id, c.article_id, c.user_id, c.parent_id, c.content, 
+            c.author_name, c.author_email, c.author_ip, c.likes, 
+            c.status, c.created_at, c.updated_at,
+            a.title AS article_title,
+            pc.author_name AS parent_author_name
+        FROM comment c
+        LEFT JOIN article a ON c.article_id = a.id
+        LEFT JOIN comment pc ON c.parent_id = pc.id
+        <where>
+            <if test="articleId != null">
+                AND c.article_id = #{articleId}
+            </if>
+            <if test="status != null">
+                AND c.status = #{status}
+            </if>
+        </where>
+        ORDER BY c.created_at DESC
+    </select>
+
+    <!-- 查询最新评论 -->
+    <select id="selectLatestComments" resultMap="BaseResultMap">
+        SELECT 
+            c.id, c.article_id, c.user_id, c.parent_id, c.content, 
+            c.author_name, c.author_email, c.author_ip, c.likes, 
+            c.status, c.created_at, c.updated_at,
+            a.title AS article_title
+        FROM comment c
+        LEFT JOIN article a ON c.article_id = a.id
+        WHERE c.status = 1
+        ORDER BY c.created_at DESC
+        LIMIT #{limit}
+    </select>
+
+</mapper> 

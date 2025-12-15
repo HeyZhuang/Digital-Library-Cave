@@ -1,0 +1,36 @@
+server:
+  port: 8182      # 当前项目所在服务的端口号
+
+# 配置日志级别为info
+logging:
+  level:
+    root: info
+    org.springframework.security: debug
+    org.springframework.web: debug
+
+spring:
+  datasource:                                     # 数据源的相关配置
+    type: com.zaxxer.hikari.HikariDataSource      # 数据源的类型，可以更改为其他的数据源配置，比如druid
+    driver-class-name: com.mysql.cj.jdbc.Driver      # mysql/MariaDB 的数据库驱动类名称
+    url: jdbc:mysql://127.0.0.1:3306/deepseek_doctor?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&cachePrepStmts=true&useServerPrepStmts=true&prepStmtCacheSize=250&prepStmtCacheSqlLimit=2048&useLocalSessionState=true&useLocalTransactionState=true&rewriteBatchedStatements=true&cacheResultSetMetadata=true&cacheServerConfiguration=true&maintainTimeStats=false
+    username: root
+    password: 123456
+    hikari:
+      pool-name: DataSourceHikariCP           # 连接池的名字
+      connection-timeout: 60000               # 等待连接池分配连接的最大时间（毫秒），从30秒增加到60秒
+      minimum-idle: 10                        # 最小连接数，从5增加到10
+      maximum-pool-size: 50                   # 最大连接数，从20增加到50
+      auto-commit: true                       # 自动提交
+      idle-timeout: 900000                    # 连接超时的最大时长（毫秒），从10分钟增加到15分钟
+      max-lifetime: 1800000                   # 连接池的最大生命时长（毫秒），从5小时减少到30分钟
+      connection-test-query: SELECT 1
+      validation-timeout: 5000                # 验证连接的超时时间
+      leak-detection-threshold: 60000         # 连接泄露检测阈值
+      initialization-fail-timeout: 1          # 连接池初始化失败的超时时间
+      isolate-internal-queries: false         # 是否隔离内部查询
+      allow-pool-suspension: false            # 是否允许暂停连接池
+      read-only: false                        # 是否只读
+      register-mbeans: false                  # 是否注册JMX管理的MBean
+
+website:
+  domain: http://localhost:8182

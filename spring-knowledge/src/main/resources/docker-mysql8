@@ -1,0 +1,14 @@
+docker pull mysql:8.4.4
+
+
+
+docker run -p 3306:3306 --name mysql8-imooc \
+-v /home/mysql8/log:/var/log/mysql \
+-v /home/mysql8/data:/var/lib/mysql \
+-v /home/mysql8/conf:/etc/mysql/conf.d \
+-v /home/mysql8/mysql-files:/var/lib/mysql-files \
+-e MYSQL_ROOT_PASSWORD=Abc_123456789 \
+-d mysql:8.4.4 \
+--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+

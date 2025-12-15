@@ -1,0 +1,114 @@
+spring:
+  application:
+    name: spring-knowledge   # 定义当前项目的应用名称
+  profiles:
+    active: dev
+  
+  # 任务执行配置优化
+  task:
+    execution:
+      pool:
+        core-size: 8           # 核心线程数
+        max-size: 16           # 最大线程数
+        queue-capacity: 100    # 队列容量
+        keep-alive: 60s        # 线程空闲时间
+      thread-name-prefix: async-task-
+    scheduling:
+      pool:
+        size: 4                # 调度线程池大小
+  
+  # Jackson 配置优化
+  jackson:
+    default-property-inclusion: non_null  # 忽略null值
+    serialization:
+      write-dates-as-timestamps: false
+      fail-on-empty-beans: false
+    deserialization:
+      fail-on-unknown-properties: false
+
+#  ai:
+#    ollama:
+#      base-url: http://127.0.0.1:11434
+#      chat:
+#        model: my-doctor:1.0.1.Release
+
+# MyBatisPlus 的配置
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+      update-strategy: not_empty
+  mapper-locations: classpath*:/mappers/*.xml
+
+# JWT 配置
+jwt:
+  secret: mySecretKey123456789012345678901234567890
+  expiration: 86400    # 24小时，单位秒
+  refresh-expiration: 604800  # 7天，单位秒
+
+# 服务器性能优化配置
+server:
+  tomcat:
+    threads:
+      max: 200              # 最大工作线程数
+      min-spare: 10         # 最小空闲线程数
+    connection-timeout: 60000   # 连接超时时间 60秒
+    keep-alive-timeout: 60000   # Keep-Alive超时时间
+    max-keep-alive-requests: 100 # 最大Keep-Alive请求数
+    accept-count: 100          # 最大等待队列长度
+    max-connections: 8192      # 最大连接数
+    processor-cache: 200       # 处理器缓存
+  compression:
+    enabled: true              # 启用响应压缩
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain,text/css,text/javascript,application/javascript
+    min-response-size: 1024    # 压缩阈值1KB
+
+  # Spring Boot 文件上传配置
+  servlet:
+    multipart:
+      max-file-size: 10MB      # 单个文件最大大小
+      max-request-size: 10MB   # 整个请求最大大小
+
+# 文件上传配置
+file:
+  upload:
+    path: ./uploads/
+    max-size: 10MB
+    allowed-types: jpg,jpeg,png,gif,pdf,doc,docx,txt,md
+
+# 管理配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: when-authorized
+  server:
+    port: 8182            # 管理端口与应用端口分离
+
+# 日志配置
+logging:
+  level:
+    com.itzixi: debug
+    org.springframework.security: debug
+    # 减少数据库相关日志
+    com.zaxxer.hikari: warn
+    org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor: warn
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"
+  file:
+    name: logs/knowledge-base.log
+    max-size: 10MB         # 单个日志文件最大大小
+    max-history: 7         # 保留历史日志文件数量
+
+# 性能监控配置
+performance:
+  monitoring:
+    enabled: true
+    slow-query-threshold: 1000    # 慢查询阈值(毫秒)
+    request-timeout-threshold: 30000  # 请求超时阈值(毫秒)

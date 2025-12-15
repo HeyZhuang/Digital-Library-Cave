@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itzixi.mapper.ArticleMapper">
+
+    <resultMap id="ArticleResultMap" type="com.itzixi.entity.Article">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="summary" property="summary"/>
+        <result column="author_id" property="authorId"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="status" property="status"/>
+        <result column="views" property="views"/>
+        <result column="likes" property="likes"/>
+        <result column="comments_count" property="commentsCount"/>
+        <result column="is_top" property="isTop"/>
+        <result column="allow_comments" property="allowComments"/>
+        <result column="publish_time" property="publishTime"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+        <result column="author_name" property="authorName"/>
+        <result column="category_name" property="categoryName"/>
+    </resultMap>
+
+    <select id="selectArticlePageWithDetails" resultMap="ArticleResultMap">
+        SELECT a.id, a.title, a.summary, a.author_id, a.category_id, a.status, 
+               a.views, a.likes, a.comments_count, a.is_top, a.allow_comments, 
+               a.publish_time, a.created_at, a.updated_at,
+               u.nickname AS author_name, c.name AS category_name
+        FROM article a
+        LEFT JOIN sys_user u ON a.author_id = u.id
+        LEFT JOIN category c ON a.category_id = c.id
+        <where>
+            <if test="status != null">
+                AND a.status = #{status}
+            </if>
+        </where>
+        ORDER BY a.is_top DESC, a.created_at DESC
+    </select>
+
+    <select id="selectByCategoryId" resultMap="ArticleResultMap">
+        SELECT a.id, a.title, a.summary, a.author_id, a.category_id, a.status, 
+               a.views, a.likes, a.comments_count, a.is_top, a.allow_comments, 
+               a.publish_time, a.created_at, a.updated_at,
+               u.nickname AS author_name, c.name AS category_name
+        FROM article a USE INDEX (idx_status_category)
+        LEFT JOIN sys_user u ON a.author_id = u.id
+        LEFT JOIN category c ON a.category_id = c.id
+        WHERE a.category_id = #{categoryId} AND a.status = 1
+        ORDER BY a.created_at DESC
+    </select>
+
+    <select id="selectByTagName" resultMap="ArticleResultMap">
+        SELECT a.id, a.title, a.summary, a.author_id, a.category_id, a.status, 
+               a.views, a.likes, a.comments_count, a.is_top, a.allow_comments, 
+               a.publish_time, a.created_at, a.updated_at,
+               u.nickname AS author_name, c.name AS category_name
+        FROM article a
+        LEFT JOIN sys_user u ON a.author_id = u.id
+        LEFT JOIN category c ON a.category_id = c.id
+        INNER JOIN article_tag at ON a.id = at.article_id
+        INNER JOIN tag t ON at.tag_id = t.id
+        WHERE t.name = #{tagName} AND a.status = 1
+        ORDER BY a.created_at DESC
+    </select>
+
+    <select id="searchArticles" resultMap="ArticleResultMap">
+        SELECT a.id, a.title, a.summary, a.author_id, a.category_id, a.status, 
+               a.views, a.likes, a.comments_count, a.is_top, a.allow_comments, 
+               a.publish_time, a.created_at, a.updated_at,
+               u.nickname AS author_name, c.name AS category_name
+        FROM article a USE INDEX (idx_status_created_top)
+        LEFT JOIN sys_user u ON a.author_id = u.id
+        LEFT JOIN category c ON a.category_id = c.id
+        WHERE a.status = 1
+        AND (a.title LIKE CONCAT('%', #{keyword}, '%')
+             OR a.summary LIKE CONCAT('%', #{keyword}, '%'))
+        ORDER BY a.created_at DESC
+        LIMIT 1000
+    </select>
+
+    <select id="selectPopularArticles" resultMap="ArticleResultMap">
+        SELECT a.id, a.title, a.summary, a.author_id, a.category_id, a.status, 
+               a.views, a.likes, a.comments_count, a.is_top, a.allow_comments, 
+               a.publish_time, a.created_at, a.updated_at,
+               u.nickname AS author_name, c.name AS category_name
+        FROM article a USE INDEX (idx_views_likes)
+        LEFT JOIN sys_user u ON a.author_id = u.id
+        LEFT JOIN category c ON a.category_id = c.id
+        WHERE a.status = 1
+        ORDER BY a.views DESC, a.likes DESC
+        LIMIT #{limit}
+    </select>
+
+    <select id="selectLatestArticles" resultMap="ArticleResultMap">
+        SELECT a.id, a.title, a.summary, a.author_id, a.category_id, a.status, 
+               a.views, a.likes, a.comments_count, a.is_top, a.allow_comments, 
+               a.publish_time, a.created_at, a.updated_at,
+               u.nickname AS author_name, c.name AS category_name
+        FROM article a USE INDEX (idx_status_created_top)
+        LEFT JOIN sys_user u ON a.author_id = u.id
+        LEFT JOIN category c ON a.category_id = c.id
+        WHERE a.status = 1
+        ORDER BY a.created_at DESC
+        LIMIT #{limit}
+    </select>
+
+    <update id="incrementViews">
+        UPDATE article SET views = views + 1 WHERE id = #{id}
+    </update>
+
+</mapper> 

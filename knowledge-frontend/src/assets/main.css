@@ -1,0 +1,768 @@
+/* 数字智库全局样式系统 */
+
+/* 字体导入 - 中文字体系统 */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+/* 思源宋体 - 标题字体 */
+@font-face {
+  font-family: 'Source Han Serif SC';
+  src: local('Source Han Serif SC'), 
+       local('SourceHanSerifSC'),
+       local('Noto Serif CJK SC'),
+       local('NotoSerifCJKSC');
+  font-weight: 400 700;
+  font-display: swap;
+}
+
+/* 霞鹜文楷 - 正文字体 */
+@font-face {
+  font-family: 'LXGW WenKai';
+  src: local('LXGW WenKai'), 
+       local('LXGWWenKai'),
+       local('霞鹜文楷');
+  font-weight: 400 700;
+  font-display: swap;
+}
+
+/* Tailwind CSS 基础样式 */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 全局基础样式 - 增强对比度版本 */
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 4rem;
+  }
+  
+  body {
+    font-family: 'LXGW WenKai', 'Source Han Sans SC', 'Noto Sans CJK SC', sans-serif;
+    line-height: 1.7; /* 增加行高提升可读性 */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    /* 提升正文对比度 - WCAG AA标准 */
+    color: #1a202c; /* 深灰色 提升对比度 */
+    background-color: #f7fafc; /* 微调背景色 */
+  }
+  
+  /* 标题字体 - 增强对比度 */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Source Han Serif SC', 'Source Han Serif', 'Noto Serif CJK SC', serif;
+    font-weight: 600;
+    line-height: 1.4;
+    color: #0f172a; /* 深空色 - 高对比度 */
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* 微阴影增强分离感 */
+  }
+  
+  /* 代码字体 */
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Consolas', monospace;
+  }
+
+  /* 焦点样式增强 - 无障碍 */
+  :focus {
+    outline: 2px solid #d4af37;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* 链接可访问性增强 */
+  a {
+    color: #2b6cb0; /* 更高对比度的蓝色 */
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  a:hover {
+    color: #1e40af;
+    text-decoration-thickness: 2px;
+  }
+
+  /* 选中文本样式 */
+  ::selection {
+    background: rgba(212, 175, 55, 0.3);
+    color: #0f172a;
+  }
+}
+
+/* 组件样式层 - 优化版本 */
+@layer components {
+  /* 磨砂玻璃效果 - 增强对比度 */
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.95); /* 提升背景不透明度 */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    color: #1a202c; /* 确保文字清晰可读 */
+  }
+  
+  /* 深色磨砂玻璃 - 用于深色背景 */
+  .glass-effect-dark {
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    color: #f8f5f0;
+  }
+  
+  /* 鎏金渐变 */
+  .gold-gradient {
+    background: linear-gradient(135deg, #d4af37, #f9e076, #d4af37);
+  }
+  
+  /* 深空渐变 */
+  .deepspace-gradient {
+    background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
+  }
+  
+  /* 羊皮纸纹理 */
+  .parchment-texture {
+    background-image: 
+      radial-gradient(circle at 20% 50%, rgba(248, 245, 240, 0.1) 1px, transparent 1px),
+      radial-gradient(circle at 80% 50%, rgba(248, 245, 240, 0.1) 1px, transparent 1px);
+    background-size: 30px 30px;
+  }
+
+  /* 高对比度卡片 */
+  .content-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: #1a202c;
+  }
+
+  .content-card:hover {
+    box-shadow: 
+      0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border-color: #d4af37;
+  }
+
+  /* 待办事项组件 - 增强可读性 */
+  .todo-item {
+    position: relative;
+    padding: 12px 16px 12px 40px; /* 扩大点击区域 */
+    margin: 8px 0;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    color: #2d3748; /* 高对比度灰色 */
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+
+  .todo-item:hover {
+    background: #edf2f7;
+    border-color: #cbd5e0;
+  }
+
+  .todo-item.completed {
+    background: #f0fff4;
+    border-color: #9ae6b4;
+    color: #22543d;
+    text-decoration: line-through;
+  }
+
+  .todo-item::before {
+    content: '';
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    border: 2px solid #a0aec0;
+    border-radius: 3px;
+    background: white;
+  }
+
+  .todo-item.completed::before {
+    background: #48bb78;
+    border-color: #48bb78;
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='m13.854 3.646-7.5 7.5a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6 10.293l7.146-7.147a.5.5 0 0 1 .708.708z'/%3e%3c/svg%3e");
+  }
+
+  /* 时间标签醒目设计 */
+  .time-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    background: rgba(229, 62, 62, 0.1);
+    color: #c53030; /* 高对比度红色 */
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: 6px;
+    border: 1px solid rgba(229, 62, 62, 0.2);
+  }
+
+  .time-tag.urgent {
+    background: rgba(229, 62, 62, 0.15);
+    color: #9b2c2c;
+    border-color: rgba(229, 62, 62, 0.3);
+  }
+
+  .time-tag.recent {
+    background: rgba(56, 178, 172, 0.1);
+    color: #234e52;
+    border-color: rgba(56, 178, 172, 0.2);
+  }
+  
+  /* 操作按钮视觉强化 - WCAG AA标准 */
+  .action-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    background: #3182ce; /* 高对比度蓝色 */
+    color: #ffffff !important;
+    font-weight: 500;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 
+      0 2px 4px rgba(49, 130, 206, 0.2),
+      0 1px 2px rgba(0, 0, 0, 0.05);
+    text-decoration: none;
+  }
+
+  .action-button:hover {
+    background: #2c5282;
+    box-shadow: 
+      0 4px 8px rgba(49, 130, 206, 0.3),
+      0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+  }
+
+  .action-button:focus {
+    outline: 2px solid #d4af37;
+    outline-offset: 2px;
+  }
+
+  .action-button.secondary {
+    background: #e2e8f0;
+    color: #2d3748 !important;
+    border: 1px solid #cbd5e0;
+  }
+
+  .action-button.secondary:hover {
+    background: #cbd5e0;
+    border-color: #a0aec0;
+  }
+
+  .action-button.danger {
+    background: #e53e3e;
+    color: #ffffff !important;
+  }
+
+  .action-button.danger:hover {
+    background: #c53030;
+  }
+  
+  /* 古籍风格按钮 - 保持主题 */
+  .ancient-btn {
+    position: relative;
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.95));
+    border: 2px solid rgba(212, 175, 55, 0.5);
+    border-radius: 0.5rem;
+    color: #1a202c !important; /* 高对比度文字 */
+    font-weight: 600;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  
+  .ancient-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+    transition: left 0.5s ease;
+  }
+  
+  .ancient-btn:hover::before {
+    left: 100%;
+  }
+  
+  .ancient-btn:hover {
+    border-color: rgba(212, 175, 55, 0.8);
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+    transform: translateY(-2px);
+  }
+
+  .ancient-btn:focus {
+    outline: 2px solid #d4af37;
+    outline-offset: 2px;
+  }
+
+  /* 卷轴风格容器 - 改善对比度 */
+  .scroll-container {
+    position: relative;
+    background: rgba(255, 255, 255, 0.98);
+    border: 2px solid rgba(212, 175, 55, 0.4);
+    border-radius: 1rem;
+    padding: 2rem;
+    backdrop-filter: blur(10px);
+    color: #1a202c;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  }
+  
+  .scroll-container::before,
+  .scroll-container::after {
+    content: '';
+    position: absolute;
+    top: 0.5rem;
+    width: 1rem;
+    height: calc(100% - 1rem);
+    background: linear-gradient(180deg, #d4af37, #f9e076, #d4af37);
+    border-radius: 0.5rem;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .scroll-container::before {
+    left: 0.5rem;
+  }
+  
+  .scroll-container::after {
+    right: 0.5rem;
+  }
+  
+  /* 竖排文字 */
+  .vertical-text {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    letter-spacing: 0.1em;
+  }
+  
+  /* 知识卡片阴影 - 增强版 */
+  .knowledge-shadow {
+    box-shadow: 
+      0 4px 20px rgba(212, 175, 55, 0.15),
+      0 2px 8px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(212, 175, 55, 0.1);
+  }
+  
+  /* 加载骨架屏 */
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      rgba(226, 232, 240, 0.8) 25%,
+      rgba(203, 213, 224, 0.8) 50%,
+      rgba(226, 232, 240, 0.8) 75%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+    border-radius: 4px;
+  }
+  
+  /* 金色涟漪效果 */
+  .ripple-effect {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .ripple-effect::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(212, 175, 55, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+  
+  .ripple-effect:active::after {
+    width: 300px;
+    height: 300px;
+  }
+
+  /* 卡片头部 */
+  .card-header {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #0f172a;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #d4af37;
+    position: relative;
+  }
+
+  .card-header::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: #f9e076;
+  }
+
+  /* 全局分类标签样式 - 确保在各种背景下都有良好对比度 */
+  .category-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 9999px;
+    transition: all 0.2s ease-in-out;
+    white-space: nowrap;
+    
+    /* 高对比度配色 - 深蓝背景金色文字 */
+    background: linear-gradient(135deg, #1e40af, #2563eb);
+    color: #ffd700;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    box-shadow: 
+      0 1px 3px rgba(0, 0, 0, 0.1),
+      0 0 8px rgba(255, 215, 0, 0.2);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  .category-badge:hover {
+    background: linear-gradient(135deg, #2563eb, #3b82f6);
+    border-color: rgba(255, 215, 0, 0.5);
+    box-shadow: 
+      0 2px 6px rgba(0, 0, 0, 0.15),
+      0 0 12px rgba(255, 215, 0, 0.3);
+    transform: translateY(-1px);
+  }
+
+  /* 为文章卡片悬浮状态提供特殊样式 */
+  .card:hover .category-badge {
+    background: linear-gradient(135deg, #dc2626, #ef4444);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.3);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  }
+
+  /* 备用标签颜色变体 */
+  .category-badge.variant-green {
+    background: linear-gradient(135deg, #059669, #10b981);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .category-badge.variant-purple {
+    background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .category-badge.variant-orange {
+    background: linear-gradient(135deg, #ea580c, #f97316);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+}
+
+/* 工具样式层 - 优化版本 */
+@layer utilities {
+  /* 文字发光 - 保持可读性 */
+  .text-glow {
+    text-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+  }
+  
+  /* 元素发光 */
+  .glow {
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+  }
+  
+  /* 金边 */
+  .border-gold {
+    border-color: rgba(212, 175, 55, 0.6);
+  }
+  
+  /* 滚动条样式 */
+  .scrollbar-gold {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(212, 175, 55, 0.6) rgba(226, 232, 240, 0.5);
+  }
+  
+  .scrollbar-gold::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .scrollbar-gold::-webkit-scrollbar-track {
+    background: rgba(226, 232, 240, 0.5);
+    border-radius: 4px;
+  }
+  
+  .scrollbar-gold::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #d4af37, #f9e076);
+    border-radius: 4px;
+  }
+  
+  .scrollbar-gold::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #f9e076, #d4af37);
+  }
+
+  /* 高对比度模式支持 */
+  .high-contrast {
+    filter: contrast(150%);
+  }
+
+  /* 高对比度实用工具类 */
+  .text-high-contrast {
+    color: #111827; /* 非常深的文字色 */
+  }
+
+  .text-high-contrast-secondary {
+    color: #374151; /* 深色的次要文字 */
+  }
+
+  .bg-high-contrast {
+    background-color: #ffffff; /* 纯白背景 */
+  }
+
+  .border-high-contrast {
+    border-color: #374151; /* 深色边框 */
+  }
+
+  /* 文本增强类 */
+  .text-enhanced {
+    color: #1a202c;
+    font-weight: 500;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
+  }
+
+  .text-subtle {
+    color: #374151; /* 更深的灰色，确保对比度 */
+  }
+
+  .text-emphasis {
+    color: #1e40af; /* 更深的蓝色，确保对比度 */
+    font-weight: 600;
+  }
+}
+
+/* 动画定义 */
+@keyframes flow {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+@keyframes skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-gold {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes glow {
+  0% { box-shadow: 0 0 5px rgba(212, 175, 55, 0.2); }
+  50% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
+  100% { box-shadow: 0 0 5px rgba(212, 175, 55, 0.2); }
+}
+
+/* 响应式断点调整 */
+@media (max-width: 768px) {
+  .scroll-container {
+    padding: 1rem;
+  }
+  
+  .scroll-container::before,
+  .scroll-container::after {
+    width: 0.5rem;
+  }
+  
+  .scroll-container::before {
+    left: 0.25rem;
+  }
+  
+  .scroll-container::after {
+    right: 0.25rem;
+  }
+
+  .action-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .todo-item {
+    padding: 16px 16px 16px 48px;
+  }
+}
+
+/* 高对比度偏好模式 */
+@media (prefers-contrast: high) {
+  :root {
+    --text-primary: #000000;
+    --text-secondary: #1f2937;
+    --text-muted: #374151;
+    --bg-primary: #ffffff;
+    --border-color: #1f2937;
+    --link-color: #1e40af;
+  }
+
+  body {
+    color: var(--text-primary) !important;
+    background: var(--bg-primary) !important;
+  }
+
+  .content-card {
+    background: var(--bg-primary) !important;
+    border: 2px solid var(--border-color) !important;
+    box-shadow: none !important;
+    color: var(--text-primary) !important;
+  }
+
+  .action-button {
+    border: 2px solid currentColor !important;
+    background: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
+  }
+
+  /* 确保所有文字都有足够对比度 */
+  * {
+    color: inherit;
+  }
+
+  /* 链接高对比度 */
+  a {
+    color: var(--link-color) !important;
+    text-decoration: underline !important;
+  }
+
+  /* 次要文字高对比度 */
+  .text-gray-400,
+  .text-gray-500,
+  .text-gray-600 {
+    color: var(--text-muted) !important;
+  }
+
+  /* 图标高对比度 */
+  svg {
+    color: inherit;
+  }
+
+  /* 高对比度模式下的分类标签 */
+  .category-badge {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border: 2px solid #ffffff !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+  }
+  
+  .category-badge:hover,
+  .card:hover .category-badge {
+    background: #1a1a1a !important;
+    border-color: #cccccc !important;
+    color: #ffffff !important;
+  }
+}
+
+/* 减少动画偏好 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* 暗黑模式支持 */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+  }
+
+  body {
+    background: #0f172a;
+    color: #f8f5f0;
+  }
+
+  .content-card {
+    background: #1e293b;
+    border-color: #374151;
+    color: #f8f5f0;
+  }
+
+  .todo-item {
+    background: #1e293b;
+    border-color: #374151;
+    color: #e2e8f0;
+  }
+
+  .scroll-container {
+    background: rgba(30, 41, 59, 0.98);
+    color: #f8f5f0;
+  }
+
+  /* 暗色主题下的分类标签 */
+  .category-badge {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: #1f2937;
+    border-color: rgba(31, 41, 55, 0.3);
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+  }
+  
+  .category-badge:hover {
+    background: linear-gradient(135deg, #fcd34d, #fbbf24);
+    border-color: rgba(31, 41, 55, 0.5);
+  }
+
+  .card:hover .category-badge {
+    background: linear-gradient(135deg, #f97316, #fb923c);
+    color: #1f2937;
+    border-color: rgba(31, 41, 55, 0.5);
+  }
+}
+
+/* 打印样式 */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  * {
+    color: #000 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  .content-card {
+    border: 1px solid #ccc !important;
+    break-inside: avoid;
+  }
+
+  .action-button {
+    border: 1px solid #000 !important;
+    background: white !important;
+    color: #000 !important;
+  }
+}

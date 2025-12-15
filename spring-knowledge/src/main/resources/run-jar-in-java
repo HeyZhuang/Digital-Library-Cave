@@ -1,0 +1,5 @@
+java -jar deepseek-doctor.jar
+
+nohup java -jar deepseek-doctor.jar >my.log 2>&1 &
+
+nohup = no hang up

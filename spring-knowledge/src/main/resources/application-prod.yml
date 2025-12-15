@@ -1,0 +1,103 @@
+server:
+  port: 8181      # 当前项目所在服务的端口号
+
+# 配置日志级别为info
+logging:
+  level:
+    root: info
+
+spring:
+  datasource:                                     # 数据源的相关配置
+    type: com.zaxxer.hikari.HikariDataSource      # 数据源的类型，可以更改为其他的数据源配置，比如druid
+    driver-class-name: com.mysql.cj.jdbc.Driver      # mysql/MariaDB 的数据库驱动类名称
+    url: jdbc:mysql://140.143.155.164:3306/deepseek_doctor?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: deepseek_doctor
+    password: irynfFasGWGykf5x
+    hikari:
+      pool-name: DataSourceHikariCP           # 连接池的名字
+      connection-timeout: 30000               # 等待连接池分配连接的最大时间（毫秒），超过这个时长还没有可用的连接，则会抛出SQLException
+      minimum-idle: 20                        # 最小连接数，从5增加到20
+      maximum-pool-size: 50                   # 最大连接数，从20增加到50
+      auto-commit: true                       # 自动提交
+      idle-timeout: 600000                    # 连接超时的最大时长（毫秒），超时则会被释放（retired）
+      max-lifetime: 1800000                   # 连接池的最大生命时长（毫秒），从5小时减少到30分钟
+      connection-test-query: SELECT 1
+      validation-timeout: 5000                # 验证连接的超时时间
+      leak-detection-threshold: 60000         # 连接泄露检测阈值
+      initialization-fail-timeout: 1          # 连接池初始化失败的超时时间
+      isolate-internal-queries: false         # 是否隔离内部查询
+      allow-pool-suspension: false            # 是否允许暂停连接池
+      read-only: false                        # 是否只读
+      register-mbeans: false                  # 是否注册JMX管理的MBean
+
+  # Redis 配置
+data:
+  redis:
+    host: 140.143.155.164
+    port: 6379
+    password:
+    database: 0
+    timeout: 3000ms
+    lettuce:
+      pool:
+        max-active: 20
+        max-idle: 10
+        min-idle: 5
+        max-wait: 3000ms
+
+# RabbitMQ 配置
+
+  rabbitmq:
+    host: 140.143.155.164
+    port: 5672
+    username: admin
+    password: admin123
+    virtual-host: /
+    # 连接池配置
+    connection-timeout: 3000ms
+    # 发布确认
+    publisher-confirm-type: correlated
+    publisher-returns: true
+    # 消费者配置
+    listener:
+      simple:
+        acknowledge-mode: manual
+        prefetch: 10
+        concurrency: 5
+        max-concurrency: 10
+        retry:
+          enabled: true
+          initial-interval: 1000ms
+          max-attempts: 3
+          multiplier: 1.0
+          max-interval: 10000ms
+
+  # Elasticsearch 配置
+  data:
+    elasticsearch:
+      uris: http://140.143.155.164:9200
+      username:
+      password:
+
+  # 邮件配置
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username: 384914780@qq.com
+    password: ckz12345cc
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  ai:
+    ollama:
+      base-url: http://127.0.0.1:11434
+      chat:
+        model: my-doctor:1.0.1.Release
+
+
+website:
+  domain: http://140.143.155.164:3000
